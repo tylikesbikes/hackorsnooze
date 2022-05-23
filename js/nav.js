@@ -43,6 +43,11 @@ function navSubmitStory(evt) {
   console.debug("navSubmitStory", evt);
 
   hidePageComponents();
+  if(currentUser===undefined) {
+    $submitNotLoggedIn.show();
+    return;
+  }
+
   $submitForm.show();
   
 }
@@ -99,6 +104,9 @@ function putFavoritesOnPage() {
 
   }
 
+  if(currentUser.favorites.length===0) {
+    $favoritesList.append('<h3>You have no favorites to display</h3>');
+  }
   $favoritesList.show();
 }
 
@@ -151,7 +159,10 @@ function putUserStoriesOnPage() {
   for (let story of currentUser.ownStories) {
       const $story = generateUserStoriesMarkup(story);
       $userStoryList.append($story);
+  }
 
+  if(currentUser.ownStories.length===0) {
+    $userStoryList.append('<h3>You have no submitted stories</h3>');
   }
 
   $userStoryList.show();
